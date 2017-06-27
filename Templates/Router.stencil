@@ -1,0 +1,41 @@
+import Foundation
+import Lumpik
+
+class Router: Routable {
+    func dispatch(_ work: UnitOfWork, delegate: RouterDelegate) throws {
+        switch work.workerType {
+        {% for type in types.based.Worker %}
+        case String(describing: {{ type.name }}.self):
+            try invokeWorker(workerType: {{ type.name }}.self, work: work, delegate: delegate)
+        {% endfor %}
+        default:
+            throw RouterError.notFoundWorker
+        }
+    }
+}
+{% for type in types.based.Worker %}
+
+extension {{ type.containedTypes.implementing.Argument.first.name }} {
+    func toArray() -> [AnyArgumentValue] {
+        return [
+            {% for prop in type.containedTypes.implementing.Argument.first.storedVariables %}
+            {{ prop.name }},
+            {% endfor %}
+        ].map { AnyArgumentValue($0) }
+    }
+
+    static func from(_ array: [AnyArgumentValue]) -> {{ type.containedTypes.implementing.Argument.first.name }}? {
+        // NOTE: currently stencil template engine can not provide counter with starting 0
+        guard {% for prop in type.containedTypes.implementing.Argument.first.storedVariables %}let {{ prop.name }} = {{ prop.typeName }}(array[{{ forloop.counter }} - 1].description) {% if not forloop.last %},
+            {% endif %}{% endfor %} else {
+            return nil
+        }
+
+        return {{ type.containedTypes.implementing.Argument.first.name }}(
+            {% for prop in type.containedTypes.implementing.Argument.first.storedVariables %}
+            {{ prop.name }}: {{ prop.name }}{% if not forloop.last %},{% endif %}
+            {% endfor %}
+        )
+    }
+}
+{% endfor %}
