@@ -1,5 +1,7 @@
 import Lumpik
 
+let ENV = ProcessInfo.processInfo.environment
+
 class Base {
     var jid: Jid?
     var queue: Queue?
@@ -19,7 +21,7 @@ class SampleWorker: Base, Worker {
 }
 
 var options = LaunchOptions()
-options.redisConfig = RedisConfig(host: "localhost", port: 6379)
+options.redisConfig = RedisConfig(host: ENV["REDIS_HOST"], port: ENV["REDIS_PORT"])
 
 let router = Router()
 CLI.start(router: router, launchOptions: options)
