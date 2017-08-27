@@ -18,5 +18,8 @@ class SampleWorker: Base, Worker {
     }
 }
 
+let options = LaunchOptions()
+options.redisConfig = RedisConfig(host: "localhost", port: 6379)
+
 let router = Router()
-CLI.start(router: router)
+CLI.start(router: router, launchOptions: options)
