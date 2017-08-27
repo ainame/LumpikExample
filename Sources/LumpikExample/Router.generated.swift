@@ -24,9 +24,7 @@ extension SampleWorker.Args {
 
     static func from(_ array: [AnyArgumentValue]) -> SampleWorker.Args? {
         // NOTE: currently stencil template engine can not provide counter with starting 0
-        guard let message = String(array[1 - 1].description)  else {
-            return nil
-        }
+        let message = array[1 - 1].stringValue
 
         return SampleWorker.Args(
             message: message
