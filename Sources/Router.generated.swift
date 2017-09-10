@@ -15,18 +15,18 @@ class Router: Routable {
     }
 }
 
-extension PostRandomArticleWorker.Args {
+extension PostRandomArticleWorker.Arg {
     func toArray() -> [AnyArgumentValue] {
         return [
             title,
         ].map { AnyArgumentValue($0) }
     }
 
-    static func from(_ array: [AnyArgumentValue]) -> PostRandomArticleWorker.Args? {
+    static func from(_ array: [AnyArgumentValue]) -> PostRandomArticleWorker.Arg? {
         // NOTE: currently stencil template engine can not provide counter with starting 0
         let title = array[1 - 1].stringValue
 
-        return PostRandomArticleWorker.Args(
+        return PostRandomArticleWorker.Arg(
             title: title
         )
     }
