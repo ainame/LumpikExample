@@ -51,8 +51,8 @@
         "repositoryURL": "https://github.com/ainame/Lumpik.git",
         "state": {
           "branch": null,
-          "revision": "42e96a5a998694258639374ae7fe82b0ecb50bf6",
-          "version": "0.0.6"
+          "revision": "27fdc82977313f63c73c4101dd7c5849ff9a2e43",
+          "version": "0.0.15"
         }
       },
       {
@@ -87,8 +87,8 @@
         "repositoryURL": "https://github.com/IBM-Swift/BlueSignals.git",
         "state": {
           "branch": null,
-          "revision": "99ac410f8ad4a75f0ec9a9d72512d5028e804253",
-          "version": "0.9.48"
+          "revision": "9a0b0bc422d0e3466cc41fe5cede0e9fac11df7c",
+          "version": "0.9.49"
         }
       },
       {
@@ -123,8 +123,8 @@
         "repositoryURL": "https://github.com/jpsim/Yams.git",
         "state": {
           "branch": null,
-          "revision": "c7518628d011fbd096ebe75d76d3574dc62d17dc",
-          "version": "0.3.5"
+          "revision": "5ac9248b378b5e12201c255ba74caf990d1e0f4b",
+          "version": "0.3.6"
         }
       }
     ]

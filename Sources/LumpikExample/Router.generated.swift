@@ -19,15 +19,18 @@ extension PostRandomArticleWorker.Args {
     func toArray() -> [AnyArgumentValue] {
         return [
             title,
+            userId,
         ].map { AnyArgumentValue($0) }
     }
 
     static func from(_ array: [AnyArgumentValue]) -> PostRandomArticleWorker.Args? {
         // NOTE: currently stencil template engine can not provide counter with starting 0
         let title = array[1 - 1].stringValue
+        let userId = array[2 - 1].stringValue
 
         return PostRandomArticleWorker.Args(
-            title: title
+            title: title,
+            userId: userId
         )
     }
 }
