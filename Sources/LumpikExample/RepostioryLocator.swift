@@ -9,22 +9,18 @@ import Foundation
 import Lumpik
 
 final class RepositoryLocator {
+    static let shared = RepositoryLocator(pool: AnyConnectablePool(ConnectionPool<RedisStore>(maxCapacity: 5)))
+    
     var articleRepository: AnyRepository<Article> {
         return AnyRepository(_articleRepostiory)
     }
     private let _articleRepostiory: ArticleRepository
-    
-    var userRepository: AnyRepository<User> {
-        return AnyRepository(_userRepostiory)
-    }
-    private let _userRepostiory: UserRepository
     
     private let pool: AnyConnectablePool<RedisStore>
     
     init(pool: AnyConnectablePool<RedisStore>) {
         self.pool = pool
         _articleRepostiory = ArticleRepository(pool: pool)
-        _userRepostiory = UserRepository(pool: pool)
     }
 }
 
@@ -35,7 +31,7 @@ protocol RepostioryInjectable {
 extension RepostioryInjectable {
     var repostioryLocator: RepositoryLocator {
         #if TEST
-            return RepositoryLocator(pool: AnyConnectablePool(ConnectionPool<RedisStore>(maxCapacity: 5)))
+            return RepositoryLocator.shared
         #else
             return RepositoryLocator(pool: AnyConnectablePool(ConnectionPool<RedisStore>(maxCapacity: 5)))
         #endif

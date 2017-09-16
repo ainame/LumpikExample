@@ -9,12 +9,11 @@ import Foundation
 import Lumpik
 
 struct Article: Codable {
-   let id: Int
-   let title: String
-   let body: String
-   let createdAt: Date
-   let updatedAt: Date
-   let publishedAt: Date
+    let id: String
+    let imageURL: URL
+    let title: String
+    let body: String
+    let createdAt: Date
 }
 
 final class ArticleRepository: Repository {

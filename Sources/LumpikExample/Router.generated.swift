@@ -7,30 +7,49 @@ import Lumpik
 class Router: Routable {
     func dispatch(_ work: UnitOfWork, delegate: RouterDelegate) throws {
         switch work.workerType {
-        case String(describing: PostRandomArticleWorker.self):
-            try invokeWorker(workerType: PostRandomArticleWorker.self, work: work, delegate: delegate)
+        case String(describing: ListRecipeWorker.self):
+            try invokeWorker(workerType: ListRecipeWorker.self, work: work, delegate: delegate)
+        case String(describing: SaveRecipeWorker.self):
+            try invokeWorker(workerType: SaveRecipeWorker.self, work: work, delegate: delegate)
         default:
             throw RouterError.notFoundWorker
         }
     }
 }
 
-extension PostRandomArticleWorker.Args {
+extension ListRecipeWorker.Args {
     func toArray() -> [AnyArgumentValue] {
         return [
-            title,
-            userId,
+            keyword,
+            maxPage,
         ].map { AnyArgumentValue($0) }
     }
 
-    static func from(_ array: [AnyArgumentValue]) -> PostRandomArticleWorker.Args? {
+    static func from(_ array: [AnyArgumentValue]) -> ListRecipeWorker.Args? {
         // NOTE: currently stencil template engine can not provide counter with starting 0
-        let title = array[1 - 1].stringValue
-        let userId = array[2 - 1].stringValue
+        let keyword = array[1 - 1].stringValue
+        let maxPage = array[2 - 1].intValue
 
-        return PostRandomArticleWorker.Args(
-            title: title,
-            userId: userId
+        return ListRecipeWorker.Args(
+            keyword: keyword,
+            maxPage: maxPage
+        )
+    }
+}
+
+extension SaveRecipeWorker.Args {
+    func toArray() -> [AnyArgumentValue] {
+        return [
+            path,
+        ].map { AnyArgumentValue($0) }
+    }
+
+    static func from(_ array: [AnyArgumentValue]) -> SaveRecipeWorker.Args? {
+        // NOTE: currently stencil template engine can not provide counter with starting 0
+        let path = array[1 - 1].stringValue
+
+        return SaveRecipeWorker.Args(
+            path: path
         )
     }
 }
