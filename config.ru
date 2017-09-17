@@ -2,6 +2,10 @@ require 'sidekiq/web'
 require 'sinatra/base'
 require 'redis'
 
+redis = Redis.new
+keys = redis.keys("articles/*")
+redis.del(*keys)
+
 class App < Sinatra::Base
   template :index do
     <<'EOS'
