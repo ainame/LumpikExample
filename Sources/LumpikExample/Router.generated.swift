@@ -7,17 +7,17 @@ import Lumpik
 class Router: Routable {
     func dispatch(_ work: UnitOfWork, delegate: RouterDelegate) throws {
         switch work.workerType {
-        case String(describing: ListRecipeWorker.self):
-            try invokeWorker(workerType: ListRecipeWorker.self, work: work, delegate: delegate)
-        case String(describing: SaveRecipeWorker.self):
-            try invokeWorker(workerType: SaveRecipeWorker.self, work: work, delegate: delegate)
+        case String(describing: ListWorker.self):
+            try invokeWorker(workerType: ListWorker.self, work: work, delegate: delegate)
+        case String(describing: SaveWorker.self):
+            try invokeWorker(workerType: SaveWorker.self, work: work, delegate: delegate)
         default:
             throw RouterError.notFoundWorker
         }
     }
 }
 
-extension ListRecipeWorker.Args {
+extension ListWorker.Args {
     func toArray() -> [AnyArgumentValue] {
         return [
             keyword,
@@ -25,31 +25,31 @@ extension ListRecipeWorker.Args {
         ].map { AnyArgumentValue($0) }
     }
 
-    static func from(_ array: [AnyArgumentValue]) -> ListRecipeWorker.Args? {
+    static func from(_ array: [AnyArgumentValue]) -> ListWorker.Args? {
         // NOTE: currently stencil template engine can not provide counter with starting 0
         let keyword = array[1 - 1].stringValue
         let maxPage = array[2 - 1].intValue
 
-        return ListRecipeWorker.Args(
+        return ListWorker.Args(
             keyword: keyword,
             maxPage: maxPage
         )
     }
 }
 
-extension SaveRecipeWorker.Args {
+extension SaveWorker.Args {
     func toArray() -> [AnyArgumentValue] {
         return [
-            path,
+            stringUrl,
         ].map { AnyArgumentValue($0) }
     }
 
-    static func from(_ array: [AnyArgumentValue]) -> SaveRecipeWorker.Args? {
+    static func from(_ array: [AnyArgumentValue]) -> SaveWorker.Args? {
         // NOTE: currently stencil template engine can not provide counter with starting 0
-        let path = array[1 - 1].stringValue
+        let stringUrl = array[1 - 1].stringValue
 
-        return SaveRecipeWorker.Args(
-            path: path
+        return SaveWorker.Args(
+            stringUrl: stringUrl
         )
     }
 }

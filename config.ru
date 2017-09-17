@@ -5,12 +5,17 @@ require 'redis'
 class App < Sinatra::Base
   template :index do
     <<'EOS'
+<ul>
 <% @articles.each.with_index do |article, idx| %>
-<% if idx % 5 == 0 %>
-<br />
+<li>
+<% if article['body'] == "E" %>
+<font color="red"><%= article['title'] %></font> - <a href="<%= article['imageURL'] %>"><%= article['imageURL'] %></a>
+<% else %>
+<%= article['title'] %> - <a href="<%= article['imageURL'] %>"><%= article['imageURL'] %></a>
 <% end %>
-<img width="400" src="<%= article['imageURL'] %>" />
+</li>
 <% end %>
+</ul>
 EOS
   end
 
