@@ -4,7 +4,10 @@ require 'redis'
 
 redis = Redis.new
 keys = redis.keys("articles/*")
-redis.del(*keys)
+if keys != nil && !keys.empty?
+  redis.del(*keys)
+end
+
 
 class App < Sinatra::Base
   template :index do

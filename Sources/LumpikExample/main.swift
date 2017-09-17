@@ -10,5 +10,5 @@ options.redisConfig = RedisConfig(host: host, port: port)
 private let router = Router()
 options.router = router
 let cli = CLI.makeCLI(options)
-try ListWorker.performAsync(.init(keyword: "swift", maxPage: 100), on: Queue("default"))
+try ListWorker.performAsync(.init(keyword: "Swift", maxPage: 100), on: Queue("default"))
 cli.start()
